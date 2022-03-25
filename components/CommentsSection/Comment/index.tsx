@@ -1,17 +1,25 @@
 import { DeleteIcon, EditIcon } from './icons'
 import * as S from './styles'
 
-export function Comment() {
+interface CommentProps {
+  toggleCommentModal: (status: boolean) => void
+  toogleDeleteModal: (status: boolean) => void
+}
+
+export function Comment({
+  toggleCommentModal,
+  toogleDeleteModal,
+}: CommentProps) {
   return (
     <S.CommentBody>
       <S.CommentHead>
         <h3>Post Title</h3>
         <S.ButtonsContainer>
-          <S.IconButton>
+          <S.IconButton onClick={() => toogleDeleteModal(true)}>
             <DeleteIcon />
           </S.IconButton>
 
-          <S.IconButton>
+          <S.IconButton onClick={() => toggleCommentModal(true)}>
             <EditIcon />
           </S.IconButton>
         </S.ButtonsContainer>
