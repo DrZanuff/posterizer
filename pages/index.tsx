@@ -38,7 +38,8 @@ const Home: NextPage = () => {
         await controlMainPage.start({
           top: '5%',
           transition: {
-            delay: 0.5,
+            delay: 0.2,
+            duration: 0.8,
           },
         })
       }
@@ -71,7 +72,7 @@ const Home: NextPage = () => {
         initial={{
           top: '-100%',
           position: 'absolute',
-          maxWidth: '1200px',
+          maxWidth: '700px',
           width: '100%',
           height: '90vh',
         }}

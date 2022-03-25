@@ -1,14 +1,17 @@
-import { useSelector } from 'react-redux'
 import { Paper } from '@mui/material'
+import { CreateComment } from '../CreateComment'
+import { CommentsSection } from '../CommentsSection'
 import * as S from './styles'
-import type { RootState } from '../../redux/store'
 
 export function MainPage() {
-  const userName = useSelector((state: RootState) => state.username.name)
-
   return (
     <S.MainPageContainer>
-      <Paper>{userName}</Paper>
+      <Paper sx={{ width: '100%' }}>
+        <S.PageBody>
+          <CreateComment />
+          <CommentsSection />
+        </S.PageBody>
+      </Paper>
     </S.MainPageContainer>
   )
 }
