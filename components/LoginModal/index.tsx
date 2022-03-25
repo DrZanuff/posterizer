@@ -1,21 +1,40 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Paper, TextField } from '@mui/material'
 import { LoadingButton as Button } from '@mui/lab'
+
+import { useDispatch } from 'react-redux'
+import { setName } from '../../redux/usernameSlice'
+import type { ComponentsList } from '../../pages/index'
+
 import * as S from './styles'
 
-export function LoginModal() {
+interface LoginModalProps {
+  changeComponent: (componentName: ComponentsList) => void
+}
+
+export function LoginModal({ changeComponent }: LoginModalProps) {
   const [userName, setUserName] = useState<String>()
   const [isDisabled, setIsDisabled] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleChange = (text: string) => {
+  const dispatch = useDispatch()
+
+  const handleChange = useCallback((text: string) => {
     setIsDisabled(text === '')
     setUserName(text)
-  }
+  }, [])
 
-  const handleClick = () => {
+  const handleClick = useCallback(async () => {
     setIsLoading(true)
-  }
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000)
+    })
+
+    changeComponent('MainPage')
+
+    dispatch(setName(String(userName)))
+  }, [changeComponent, dispatch, userName])
 
   return (
     <S.LoginContainer>
@@ -26,6 +45,7 @@ export function LoginModal() {
             variant="outlined"
             size="small"
             value={userName}
+            disabled={isLoading}
             onChange={(event) => handleChange(event.target.value)}
             label="Nome do usuário"
           />

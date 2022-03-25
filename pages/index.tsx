@@ -1,12 +1,18 @@
 import Head from 'next/head'
 import type { NextPage } from 'next'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useAnimation, motion } from 'framer-motion'
+
 import { LoginModal } from '../components/LoginModal'
+import { MainPage } from '../components/MainPage'
+
 import * as S from '../styles/home'
+
+export type ComponentsList = 'LoginModal' | 'MainPage'
 
 const Home: NextPage = () => {
   const controlLoginModal = useAnimation()
+  const controlMainPage = useAnimation()
 
   useEffect(() => {
     async function startAnimation() {
@@ -21,6 +27,24 @@ const Home: NextPage = () => {
     startAnimation()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const changeComponent = useCallback(
+    async (componentName: ComponentsList) => {
+      if (componentName === 'MainPage') {
+        await controlLoginModal.start({
+          top: '-50%',
+        })
+
+        await controlMainPage.start({
+          top: '5%',
+          transition: {
+            delay: 0.5,
+          },
+        })
+      }
+    },
+    [controlLoginModal, controlMainPage]
+  )
 
   return (
     <S.Body>
@@ -39,7 +63,20 @@ const Home: NextPage = () => {
           width: '100%',
         }}
       >
-        <LoginModal />
+        <LoginModal changeComponent={changeComponent} />
+      </motion.div>
+
+      <motion.div
+        animate={controlMainPage}
+        initial={{
+          top: '-100%',
+          position: 'absolute',
+          maxWidth: '1200px',
+          width: '100%',
+          height: '90vh',
+        }}
+      >
+        <MainPage />
       </motion.div>
     </S.Body>
   )
