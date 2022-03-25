@@ -1,9 +1,27 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Paper } from '@mui/material'
+import type { NextPage } from 'next'
+import { useEffect } from 'react'
+import { useAnimation, motion } from 'framer-motion'
+import { LoginModal } from '../components/LoginModal'
 import * as S from '../styles/home'
 
 const Home: NextPage = () => {
+  const controlLoginModal = useAnimation()
+
+  useEffect(() => {
+    async function startAnimation() {
+      await controlLoginModal.start({
+        top: '25%',
+        transition: {
+          delay: 2,
+        },
+      })
+    }
+
+    startAnimation()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <S.Body>
       <Head>
@@ -11,11 +29,18 @@ const Home: NextPage = () => {
         <meta name="Posterizer" content="Posterizer App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <S.LoginContainer>
-        <Paper sx={{ maxWidth: '500px', height: '220px', width: '100%' }}>
-          <h1>Hello World</h1>
-        </Paper>
-      </S.LoginContainer>
+      <S.Mask />
+      <motion.div
+        animate={controlLoginModal}
+        initial={{
+          top: '-50%',
+          position: 'absolute',
+          maxWidth: '500px',
+          width: '100%',
+        }}
+      >
+        <LoginModal />
+      </motion.div>
     </S.Body>
   )
 }
