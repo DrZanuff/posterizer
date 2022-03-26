@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { compareAsc } from 'date-fns'
 import { LoadingButton } from '@mui/lab'
 import { Comment } from './Comment'
 import { CommentModal, DeleteModal } from './Modal'
@@ -15,7 +16,7 @@ export function CommentsSection() {
 
   useEffect(() => {
     async function getInitialPosts() {
-      const response = await getPosts()
+      const response = await getPosts('')
 
       if (response) {
         setNextUrl(response.next)
@@ -26,6 +27,32 @@ export function CommentsSection() {
 
     getInitialPosts()
   }, [])
+
+  const loadMorePosts = useCallback(async () => {
+    console.log('CLIKED')
+    setIsLoadingMorePosts(true)
+    const endPoint = `?${String(nextUrl?.split('?')[1])}`
+    console.log('END POINTS ', endPoint)
+    const response = await getPosts(endPoint)
+
+    if (response) {
+      setNextUrl(response.next)
+      const results = response.results
+      setPostsList((prev) => {
+        const sortedArray = [...prev, ...results]
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(b.created_datetime).getTime() -
+              new Date(a.created_datetime).getTime()
+          )
+
+        return sortedArray
+      })
+    }
+
+    setIsLoadingMorePosts(false)
+  }, [nextUrl])
 
   return (
     <S.CommentsSection>
@@ -38,7 +65,15 @@ export function CommentsSection() {
             {...post}
           />
         ))}
-        <LoadingButton>Load more Posts</LoadingButton>
+        {nextUrl !== null && (
+          <LoadingButton
+            loading={isLoadingMorePosts}
+            variant="contained"
+            onClick={() => loadMorePosts()}
+          >
+            Load more Posts
+          </LoadingButton>
+        )}
       </S.CommentsScroll>
       <S.Mask />
       {isCommentModalOpen && (

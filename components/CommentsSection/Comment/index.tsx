@@ -1,7 +1,8 @@
-import { DeleteIcon, EditIcon } from './icons'
-import type { Post } from '../../../actions/api'
+import { format, intervalToDuration, formatDistanceToNowStrict } from 'date-fns'
 import { useSelector } from 'react-redux'
 import type { RootState } from '../../../redux/store'
+import { DeleteIcon, EditIcon } from './icons'
+import type { Post } from '../../../actions/api'
 import * as S from './styles'
 
 interface CommentProps extends Post {
@@ -18,6 +19,23 @@ export function Comment({
   title,
 }: CommentProps) {
   const userName = useSelector((state: RootState) => state.username.name)
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+
+    const { days } = intervalToDuration({
+      start: date,
+      end: new Date(),
+    })
+
+    if (days === undefined) {
+      return
+    }
+
+    return days > 2
+      ? format(date, 'dd/MM/YYY')
+      : `${formatDistanceToNowStrict(date)} ago`
+  }
 
   return (
     <S.CommentBody>
@@ -39,7 +57,7 @@ export function Comment({
         <span>
           @<b>{username}</b>
         </span>
-        <span>{created_datetime}</span>
+        <span>{formatDate(created_datetime)}</span>
       </S.PostInfo>
       <S.CommentText>
         <p>{content}</p>

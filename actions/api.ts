@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 const api = axios.create({
   baseURL: 'https://dev.codeleap.co.uk/careers/',
@@ -19,11 +19,11 @@ interface getPostsData {
   results: Post[]
 }
 
-export const getPosts = async () => {
+export const getPosts = async (endPoint: string) => {
   let response
   try {
-    const { data } = await api.get<getPostsData>('')
-    console.log('API RESPONSE', data)
+    const { data } = await api.get<getPostsData>(endPoint)
+    // console.log('API RESPONSE', data)
     response = data
   } catch (e) {
     console.log(e)
