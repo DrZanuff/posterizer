@@ -7,6 +7,7 @@ import { setName } from '../../redux/usernameSlice'
 import type { ComponentsList } from '../../pages/index'
 
 import * as S from './styles'
+import theme from '../../styles/theme'
 
 interface LoginModalProps {
   changeComponent: (componentName: ComponentsList) => void
@@ -54,6 +55,7 @@ export function LoginModal({ changeComponent }: LoginModalProps) {
             disabled={isDisabled}
             loading={isLoading}
             onClick={handleClick}
+            sx={{ color: theme.colors.WHITE }}
           >
             Entrar
           </Button>

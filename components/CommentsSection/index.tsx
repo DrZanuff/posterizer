@@ -10,6 +10,7 @@ import { sortPostArrayByDate } from '../../utils/sortArrayDate'
 import { Comment } from './Comment'
 import { CommentModal, DeleteModal } from './Modal'
 import { getPosts } from '../../actions/api'
+import theme from '../../styles/theme'
 import * as S from './styles'
 
 export function CommentsSection() {
@@ -74,6 +75,7 @@ export function CommentsSection() {
             loading={isLoadingMorePosts}
             variant="contained"
             onClick={() => loadMorePosts()}
+            sx={{ color: theme.colors.WHITE }}
           >
             Load more Posts
           </LoadingButton>

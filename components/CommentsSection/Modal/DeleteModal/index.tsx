@@ -10,6 +10,7 @@ import type { RootState } from '../../../../redux/store'
 import { deletePost } from '../../../../actions/api'
 import type { ModalProps } from '../types'
 import * as S from '../styles'
+import theme from '../../../../styles/theme'
 
 const DeleteModalContainer = styled.div`
   display: flex;
@@ -61,6 +62,7 @@ export function DeleteModal({ handleClose, id }: ModalProps) {
                     size="small"
                     loading={isLoading}
                     onClick={() => handleDeletePost()}
+                    sx={{ color: theme.colors.WHITE }}
                   >
                     Ok
                   </LoadingButton>

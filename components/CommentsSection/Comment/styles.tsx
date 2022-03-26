@@ -2,19 +2,20 @@ import styled from 'styled-components'
 
 export const CommentBody = styled.article`
   height: fit-content;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.colors.PRIMARY};
+  border-radius: 5px;
 `
 export const CommentHead = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: black;
+  background-color: ${({ theme }) => theme.colors.PRIMARY};
   min-height: 40px;
 
   h3 {
     font-size: 16px;
-    color: white;
+    color: ${({ theme }) => theme.colors.WHITE};
     margin: 0;
   }
 `
@@ -37,12 +38,12 @@ export const IconButton = styled.button`
     height: 22px;
     width: 22px;
     transition: fill 0.2s ease-in-out;
-    fill: white;
+    fill: ${({ theme }) => theme.colors.WHITE};
   }
 
   &:hover {
     svg {
-      fill: red;
+      fill: ${({ theme }) => theme.colors.PRIMARY_DARK};
     }
   }
 `
@@ -56,7 +57,7 @@ export const PostInfo = styled.div`
 
   span {
     font-size: 12px;
-    color: #5a5a5a;
+    color: ${({ theme }) => theme.colors.GREY};
   }
 `
 export const CommentText = styled.div`

@@ -7,7 +7,7 @@ export const CommentBody = styled.section`
   gap: 14px;
 
   h1 {
-    font-size: 18px;
+    font-size: 14px;
     margin: 0;
   }
 `

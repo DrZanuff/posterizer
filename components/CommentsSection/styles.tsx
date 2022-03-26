@@ -17,8 +17,26 @@ export const CommentsScroll = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   padding: 5px 5px 20px;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.colors.GREY_LIGHT};
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.PRIMARY};
+    transition: filter 0.2s ease-in;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${({ theme }) => theme.colors.PRIMARY_DARK};
+  }
 `
 export const Mask = styled.div`
+  pointer-events: none;
   height: 20px;
   position: absolute;
   bottom: -2px;

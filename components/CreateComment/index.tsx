@@ -11,6 +11,7 @@ import type { RootState } from '../../redux/store'
 import { createPost, getPosts, editPost } from '../../actions/api'
 import { sortPostArrayByDate } from '../../utils/sortArrayDate'
 import * as S from './styles'
+import theme from '../../styles/theme'
 
 interface CreateCommentProps {
   headTitle?: string
@@ -120,6 +121,7 @@ export function CreateComment({
           size="small"
           disabled={title === '' || comment === ''}
           loading={isLoading}
+          sx={{ color: theme.colors.WHITE }}
           onClick={() => {
             if (method === 'create') {
               handleCreate()
