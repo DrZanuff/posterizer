@@ -20,6 +20,11 @@ export function CommentsSection() {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLoadingMorePosts, setIsLoadingMorePosts] = useState(false)
+  const [currentPostToEdit, setCurrentPostToEdit] = useState({
+    id: Number(),
+    title: String(),
+    content: String(),
+  })
 
   useEffect(() => {
     async function getInitialPosts() {
@@ -58,6 +63,7 @@ export function CommentsSection() {
             key={post.id}
             toggleCommentModal={setIsCommentModalOpen}
             toogleDeleteModal={setIsDeleteModalOpen}
+            setPostDataToEdit={setCurrentPostToEdit}
             {...post}
           />
         ))}
@@ -73,7 +79,12 @@ export function CommentsSection() {
       </S.CommentsScroll>
       <S.Mask />
       {isCommentModalOpen && (
-        <CommentModal handleClose={setIsCommentModalOpen} />
+        <CommentModal
+          handleClose={setIsCommentModalOpen}
+          id={currentPostToEdit.id}
+          title={currentPostToEdit.title}
+          content={currentPostToEdit.content}
+        />
       )}
       {isDeleteModalOpen && <DeleteModal handleClose={setIsDeleteModalOpen} />}
     </S.CommentsSection>

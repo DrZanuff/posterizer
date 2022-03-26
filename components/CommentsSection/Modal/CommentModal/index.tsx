@@ -9,41 +9,28 @@ const CommentModalContainer = styled.div`
   max-width: 723px;
   width: 100%;
 `
+const Padding = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 15px;
+`
 
-export function CommentModal({ handleClose }: ModalProps) {
+export function CommentModal({ handleClose, id, content, title }: ModalProps) {
   return (
     <S.ModalBackground>
       <S.ModalContainer>
         <CommentModalContainer>
           <Paper sx={{ width: '100%' }}>
-            <CreateComment
-              headTitle="Edit"
-              method="edit"
-              callbackFunction={handleClose}
-            />
-            {/* <S.Content>
-              <h2>Edit Item</h2>
-              <TextField label="Title" placeholder="Hello World" size="small" />
-              <TextField
-                label="Content"
-                placeholder="Content here"
-                multiline
-                maxRows={3}
-                minRows={3}
-                size="small"
+            <Padding>
+              <CreateComment
+                headTitle="Edit"
+                method="edit"
+                idToEdit={id}
+                titleToEdit={title}
+                contentToEdit={content}
+                callbackFunction={handleClose}
               />
-              <S.Row>
-                <LoadingButton
-                  variant="contained"
-                  size="small"
-                  disabled={title === '' || comment === ''}
-                  loading={isLoading}
-                  onClick={() => handleClose(false)}
-                >
-                  Save
-                </LoadingButton>
-              </S.Row>
-            </S.Content> */}
+            </Padding>
           </Paper>
         </CommentModalContainer>
       </S.ModalContainer>

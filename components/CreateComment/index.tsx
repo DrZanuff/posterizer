@@ -15,21 +15,25 @@ interface CreateCommentProps {
   headTitle?: string
   callbackFunction?: (state: false) => void
   method: 'create' | 'edit'
-  id?: number
+  idToEdit?: number
+  titleToEdit?: string
+  contentToEdit?: string
 }
 
 export function CreateComment({
   headTitle,
   callbackFunction = (state) => {},
   method,
-  id,
+  idToEdit,
+  titleToEdit = '',
+  contentToEdit = '',
 }: CreateCommentProps) {
   const dispatch = useDispatch()
   const userName = useSelector((state: RootState) => state.username.name)
   const postsList = useSelector((state: RootState) => state.postlist.posts)
 
-  const [title, setTitle] = useState<string>('')
-  const [comment, setComment] = useState<string>('')
+  const [title, setTitle] = useState<string>(titleToEdit)
+  const [comment, setComment] = useState<string>(contentToEdit)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleEdit = useCallback(async () => {
@@ -40,20 +44,28 @@ export function CreateComment({
       content: comment,
     }
 
-    await editPost(Number(id), payload)
+    await editPost(Number(idToEdit), payload)
     const response = await getPosts('')
 
     if (response) {
+      const newPostList = postsList.filter((post) => {
+        return post.id !== idToEdit
+      })
+
       const results = response.results
+
+      console.log('NEW POST LIST', newPostList)
+      console.log('RESULTS', results)
+
       dispatch(setNexturl(String(response.next)))
-      dispatch(setPosts(sortPostArrayByDate([...postsList, ...results])))
+      dispatch(setPosts(sortPostArrayByDate([...newPostList, ...results])))
     }
 
     setTitle('')
     setComment('')
     setIsLoading(false)
     callbackFunction(false)
-  }, [callbackFunction, comment, dispatch, id, postsList, title])
+  }, [callbackFunction, comment, dispatch, idToEdit, postsList, title])
 
   const handleCreate = useCallback(async () => {
     setIsLoading(true)
@@ -116,7 +128,7 @@ export function CreateComment({
             }
           }}
         >
-          Create
+          {method === 'create' ? 'CREATE' : 'SAVE'}
         </LoadingButton>
       </S.ButtonContainer>
     </S.CommentBody>
