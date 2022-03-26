@@ -17,6 +17,7 @@ export function Comment({
   username,
   content,
   title,
+  id,
 }: CommentProps) {
   const userName = useSelector((state: RootState) => state.username.name)
 

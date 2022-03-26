@@ -1,58 +1,54 @@
 import { useState, useCallback, useEffect } from 'react'
-import { compareAsc } from 'date-fns'
 import { LoadingButton } from '@mui/lab'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { setNexturl } from '../../redux/nexturlSlice'
+import { setPosts } from '../../redux/postsSlice'
+import type { RootState } from '../../redux/store'
+
+import { sortPostArrayByDate } from '../../utils/sortArrayDate'
 import { Comment } from './Comment'
 import { CommentModal, DeleteModal } from './Modal'
 import { getPosts } from '../../actions/api'
-import { Post } from '../../actions/api'
 import * as S from './styles'
 
 export function CommentsSection() {
+  const dispatch = useDispatch()
+  const nextUrl = useSelector((state: RootState) => state.nexturl.url)
+  const postsList = useSelector((state: RootState) => state.postlist.posts)
+
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLoadingMorePosts, setIsLoadingMorePosts] = useState(false)
-  const [nextUrl, setNextUrl] = useState<string | null>('')
-  const [postsList, setPostsList] = useState<Post[]>([])
 
   useEffect(() => {
     async function getInitialPosts() {
       const response = await getPosts('')
 
       if (response) {
-        setNextUrl(response.next)
+        dispatch(setNexturl(String(response.next)))
         const results = response.results
-        setPostsList((prev) => [...prev, ...results])
+        dispatch(setPosts([...postsList, ...results]))
       }
     }
 
     getInitialPosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadMorePosts = useCallback(async () => {
-    console.log('CLIKED')
     setIsLoadingMorePosts(true)
     const endPoint = `?${String(nextUrl?.split('?')[1])}`
-    console.log('END POINTS ', endPoint)
     const response = await getPosts(endPoint)
 
     if (response) {
-      setNextUrl(response.next)
+      dispatch(setNexturl(String(response.next)))
       const results = response.results
-      setPostsList((prev) => {
-        const sortedArray = [...prev, ...results]
-          .slice()
-          .sort(
-            (a, b) =>
-              new Date(b.created_datetime).getTime() -
-              new Date(a.created_datetime).getTime()
-          )
-
-        return sortedArray
-      })
+      dispatch(setPosts(sortPostArrayByDate([...postsList, ...results])))
     }
 
     setIsLoadingMorePosts(false)
-  }, [nextUrl])
+  }, [dispatch, nextUrl, postsList])
 
   return (
     <S.CommentsSection>

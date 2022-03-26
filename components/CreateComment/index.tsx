@@ -1,15 +1,97 @@
-import { useSelector } from 'react-redux'
+import { useState, useCallback } from 'react'
+import { TextField } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { setNexturl } from '../../redux/nexturlSlice'
+import { setPosts } from '../../redux/postsSlice'
 import type { RootState } from '../../redux/store'
-import { TextField, Button } from '@mui/material'
+
+import { createPost, getPosts, editPost } from '../../actions/api'
+import { sortPostArrayByDate } from '../../utils/sortArrayDate'
 import * as S from './styles'
 
-export function CreateComment() {
+interface CreateCommentProps {
+  headTitle?: string
+  callbackFunction?: (state: false) => void
+  method: 'create' | 'edit'
+  id?: number
+}
+
+export function CreateComment({
+  headTitle,
+  callbackFunction = (state) => {},
+  method,
+  id,
+}: CreateCommentProps) {
+  const dispatch = useDispatch()
   const userName = useSelector((state: RootState) => state.username.name)
+  const postsList = useSelector((state: RootState) => state.postlist.posts)
+
+  const [title, setTitle] = useState<string>('')
+  const [comment, setComment] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleEdit = useCallback(async () => {
+    setIsLoading(true)
+
+    const payload = {
+      title,
+      content: comment,
+    }
+
+    await editPost(Number(id), payload)
+    const response = await getPosts('')
+
+    if (response) {
+      const results = response.results
+      dispatch(setNexturl(String(response.next)))
+      dispatch(setPosts(sortPostArrayByDate([...postsList, ...results])))
+    }
+
+    setTitle('')
+    setComment('')
+    setIsLoading(false)
+    callbackFunction(false)
+  }, [callbackFunction, comment, dispatch, id, postsList, title])
+
+  const handleCreate = useCallback(async () => {
+    setIsLoading(true)
+
+    const payload = {
+      username: String(userName),
+      title,
+      content: comment,
+    }
+
+    await createPost(payload)
+    const response = await getPosts('')
+
+    if (response) {
+      const results = response.results
+      dispatch(setNexturl(String(response.next)))
+      dispatch(setPosts(sortPostArrayByDate([...postsList, ...results])))
+    }
+
+    setTitle('')
+    setComment('')
+    setIsLoading(false)
+  }, [comment, dispatch, postsList, title, userName])
 
   return (
     <S.CommentBody>
-      <h1>{`Welcome ${userName}, what’s on your mind?`}</h1>
-      <TextField label="Title" placeholder="Hello World" size="small" />
+      {headTitle ? (
+        <h1>{headTitle}</h1>
+      ) : (
+        <h1>{`Welcome ${userName}, what's on your mind?`}</h1>
+      )}
+      <TextField
+        label="Title"
+        placeholder="Hello World"
+        size="small"
+        value={title}
+        onChange={(evt) => setTitle(evt.target.value)}
+      />
       <TextField
         label="Content"
         placeholder="Content here"
@@ -17,11 +99,25 @@ export function CreateComment() {
         maxRows={3}
         minRows={3}
         size="small"
+        value={comment}
+        onChange={(evt) => setComment(evt.target.value)}
       />
       <S.ButtonContainer>
-        <Button variant="contained" size="small">
+        <LoadingButton
+          variant="contained"
+          size="small"
+          disabled={title === '' || comment === ''}
+          loading={isLoading}
+          onClick={() => {
+            if (method === 'create') {
+              handleCreate()
+            } else {
+              handleEdit()
+            }
+          }}
+        >
           Create
-        </Button>
+        </LoadingButton>
       </S.ButtonContainer>
     </S.CommentBody>
   )

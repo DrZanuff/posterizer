@@ -8,7 +8,7 @@ export function MainPage() {
     <S.MainPageContainer>
       <Paper sx={{ width: '100%' }}>
         <S.PageBody>
-          <CreateComment />
+          <CreateComment method="create" />
           <CommentsSection />
         </S.PageBody>
       </Paper>

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { LoadingButton } from '@mui/lab'
-import { TextField, Paper } from '@mui/material'
+import { Paper } from '@mui/material'
+import { CreateComment } from '../../../CreateComment'
 import type { ModalProps } from '../types'
 import * as S from '../styles'
 
@@ -16,7 +16,12 @@ export function CommentModal({ handleClose }: ModalProps) {
       <S.ModalContainer>
         <CommentModalContainer>
           <Paper sx={{ width: '100%' }}>
-            <S.Content>
+            <CreateComment
+              headTitle="Edit"
+              method="edit"
+              callbackFunction={handleClose}
+            />
+            {/* <S.Content>
               <h2>Edit Item</h2>
               <TextField label="Title" placeholder="Hello World" size="small" />
               <TextField
@@ -31,12 +36,14 @@ export function CommentModal({ handleClose }: ModalProps) {
                 <LoadingButton
                   variant="contained"
                   size="small"
+                  disabled={title === '' || comment === ''}
+                  loading={isLoading}
                   onClick={() => handleClose(false)}
                 >
                   Save
                 </LoadingButton>
               </S.Row>
-            </S.Content>
+            </S.Content> */}
           </Paper>
         </CommentModalContainer>
       </S.ModalContainer>
