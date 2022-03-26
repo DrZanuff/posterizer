@@ -41,14 +41,14 @@ export function LoginModal({ changeComponent }: LoginModalProps) {
     <S.LoginContainer>
       <Paper sx={{ maxWidth: '500px', height: '220px', width: '100%' }}>
         <S.LoginModal>
-          <h1>Entre com o seu usuário</h1>
+          <h1>Welcome to Posterizer, your spot to Basketball news!</h1>
           <TextField
             variant="outlined"
             size="small"
             value={userName}
             disabled={isLoading}
             onChange={(event) => handleChange(event.target.value)}
-            label="Nome do usuário"
+            label="Please enter your username"
           />
           <Button
             variant="contained"
@@ -57,7 +57,7 @@ export function LoginModal({ changeComponent }: LoginModalProps) {
             onClick={handleClick}
             sx={{ color: theme.colors.WHITE }}
           >
-            Entrar
+            ENTER
           </Button>
         </S.LoginModal>
       </Paper>

@@ -16,10 +16,18 @@ const DeleteModalContainer = styled.div`
   display: flex;
   max-width: 661px;
   width: 100%;
+
+  @media (max-width: 700px) {
+    padding: 0 20px;
+  }
 `
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 8px;
+
+  @media (max-width: 700px) {
+    gap: 32px;
+  }
 `
 
 export function DeleteModal({ handleClose, id }: ModalProps) {

@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import type { NextPage } from 'next'
 import { useEffect, useCallback } from 'react'
 import { useAnimation, motion } from 'framer-motion'
@@ -50,17 +51,44 @@ const Home: NextPage = () => {
   return (
     <S.Body>
       <Head>
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <title>Posterizer</title>
         <meta name="Posterizer" content="Posterizer App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <S.BackGroundImage>
+        <Image
+          src="https://images.unsplash.com/photo-1542652694-40abf526446e"
+          alt="BG"
+          layout="fill"
+        />
+      </S.BackGroundImage>
       <S.Mask />
       <motion.div
+        id="login-modal"
         animate={controlLoginModal}
         initial={{
           top: '-50%',
           position: 'absolute',
-          maxWidth: '500px',
+          maxWidth: '457px',
           width: '100%',
         }}
       >

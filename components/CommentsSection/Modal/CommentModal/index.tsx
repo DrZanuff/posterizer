@@ -8,6 +8,10 @@ const CommentModalContainer = styled.div`
   display: flex;
   max-width: 723px;
   width: 100%;
+
+  @media (max-width: 1024px) {
+    padding: 0 20px;
+  }
 `
 const Padding = styled.div`
   display: flex;
