@@ -20,6 +20,7 @@ export function CommentsSection() {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isLoadingMorePosts, setIsLoadingMorePosts] = useState(false)
+  const [currentPostToDelete, setCurrentPostToDelete] = useState(-1)
   const [currentPostToEdit, setCurrentPostToEdit] = useState({
     id: Number(),
     title: String(),
@@ -64,6 +65,7 @@ export function CommentsSection() {
             toggleCommentModal={setIsCommentModalOpen}
             toogleDeleteModal={setIsDeleteModalOpen}
             setPostDataToEdit={setCurrentPostToEdit}
+            setPostToDelete={setCurrentPostToDelete}
             {...post}
           />
         ))}
@@ -86,7 +88,12 @@ export function CommentsSection() {
           content={currentPostToEdit.content}
         />
       )}
-      {isDeleteModalOpen && <DeleteModal handleClose={setIsDeleteModalOpen} />}
+      {isDeleteModalOpen && (
+        <DeleteModal
+          handleClose={setIsDeleteModalOpen}
+          id={currentPostToDelete}
+        />
+      )}
     </S.CommentsSection>
   )
 }

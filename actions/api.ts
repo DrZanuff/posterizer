@@ -68,3 +68,11 @@ export const editPost = async (id: number, payload: editPostData) => {
 
   return response
 }
+
+export const deletePost = async (id: number) => {
+  try {
+    await api.delete(`${id}/`)
+  } catch (e) {
+    console.log(e)
+  }
+}

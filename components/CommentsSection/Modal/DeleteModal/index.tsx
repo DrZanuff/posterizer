@@ -1,6 +1,13 @@
+import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { LoadingButton } from '@mui/lab'
 import { Button, Paper } from '@mui/material'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { setPosts } from '../../../../redux/postsSlice'
+import type { RootState } from '../../../../redux/store'
+
+import { deletePost } from '../../../../actions/api'
 import type { ModalProps } from '../types'
 import * as S from '../styles'
 
@@ -14,7 +21,24 @@ const ButtonsContainer = styled.div`
   gap: 8px;
 `
 
-export function DeleteModal({ handleClose }: ModalProps) {
+export function DeleteModal({ handleClose, id }: ModalProps) {
+  const dispatch = useDispatch()
+  const postsList = useSelector((state: RootState) => state.postlist.posts)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleDeletePost = useCallback(async () => {
+    setIsLoading(true)
+
+    await deletePost(Number(id))
+
+    const filteredPosts = postsList.filter((post) => post.id !== id)
+
+    dispatch(setPosts(filteredPosts))
+
+    setIsLoading(true)
+    handleClose(false)
+  }, [dispatch, handleClose, id, postsList])
+
   return (
     <S.ModalBackground>
       <S.ModalContainer>
@@ -27,6 +51,7 @@ export function DeleteModal({ handleClose }: ModalProps) {
                   <Button
                     variant="outlined"
                     size="small"
+                    disabled={isLoading}
                     onClick={() => handleClose(false)}
                   >
                     Cancel
@@ -34,7 +59,8 @@ export function DeleteModal({ handleClose }: ModalProps) {
                   <LoadingButton
                     variant="contained"
                     size="small"
-                    onClick={() => handleClose(false)}
+                    loading={isLoading}
+                    onClick={() => handleDeletePost()}
                   >
                     Ok
                   </LoadingButton>

@@ -15,12 +15,14 @@ interface CommentProps extends Post {
   toggleCommentModal: (status: boolean) => void
   toogleDeleteModal: (status: boolean) => void
   setPostDataToEdit: (payload: PostEditData) => void
+  setPostToDelete: (id: number) => void
 }
 
 export function Comment({
   toggleCommentModal,
   toogleDeleteModal,
   setPostDataToEdit,
+  setPostToDelete,
   created_datetime,
   username,
   content,
@@ -34,13 +36,18 @@ export function Comment({
     setPostDataToEdit({ id, title, content })
   }, [content, id, setPostDataToEdit, title, toggleCommentModal])
 
+  const handleDelete = useCallback(() => {
+    toogleDeleteModal(true)
+    setPostToDelete(id)
+  }, [id, setPostToDelete, toogleDeleteModal])
+
   return (
     <S.CommentBody>
       <S.CommentHead>
         <h3>{title}</h3>
         {userName === username && (
           <S.ButtonsContainer>
-            <S.IconButton onClick={() => toogleDeleteModal(true)}>
+            <S.IconButton onClick={() => handleDelete()}>
               <DeleteIcon />
             </S.IconButton>
 
