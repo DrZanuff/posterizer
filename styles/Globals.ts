@@ -15,18 +15,18 @@ export default createGlobalStyle`
     }
 
     ::-webkit-scrollbar-thumb {
-      background: ${({ theme }) => theme.colors.PRIMARY};
+      background: #ff8000;
       transition: filter 0.2s ease-in;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: ${({ theme }) => theme.colors.PRIMARY_DARK};
+      background: #100903;
     }
 
   }
 
   p,h1,h2,h3 {
-    color: ${({ theme }) => theme.colors.PRIMARY_DARK};
+    color: #100903;
   }
 
 `
