@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { TextField } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+import { uniqBy } from 'lodash'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { setNexturl } from '../../redux/nexturlSlice'
@@ -54,11 +55,10 @@ export function CreateComment({
 
       const results = response.results
 
-      console.log('NEW POST LIST', newPostList)
-      console.log('RESULTS', results)
+      const noDuplicatesArray = uniqBy([...newPostList, ...results], 'id')
 
       dispatch(setNexturl(String(response.next)))
-      dispatch(setPosts(sortPostArrayByDate([...newPostList, ...results])))
+      dispatch(setPosts(sortPostArrayByDate(noDuplicatesArray)))
     }
 
     setTitle('')
