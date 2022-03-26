@@ -17,6 +17,7 @@
     "@mui/material": "^5.5.2",
     "@mui/styled-engine-sc": "^5.5.2",
     "@reduxjs/toolkit": "^1.8.0",
+    "axios": "^0.26.1",
     "babel-plugin-styled-components": "^2.0.6",
     "framer-motion": "^6.2.8",
     "next": "12.1.0",

@@ -1,7 +1,10 @@
 import { DeleteIcon, EditIcon } from './icons'
+import type { Post } from '../../../actions/api'
+import { useSelector } from 'react-redux'
+import type { RootState } from '../../../redux/store'
 import * as S from './styles'
 
-interface CommentProps {
+interface CommentProps extends Post {
   toggleCommentModal: (status: boolean) => void
   toogleDeleteModal: (status: boolean) => void
 }
@@ -9,46 +12,37 @@ interface CommentProps {
 export function Comment({
   toggleCommentModal,
   toogleDeleteModal,
+  created_datetime,
+  username,
+  content,
+  title,
 }: CommentProps) {
+  const userName = useSelector((state: RootState) => state.username.name)
+
   return (
     <S.CommentBody>
       <S.CommentHead>
-        <h3>Post Title</h3>
-        <S.ButtonsContainer>
-          <S.IconButton onClick={() => toogleDeleteModal(true)}>
-            <DeleteIcon />
-          </S.IconButton>
+        <h3>{title}</h3>
+        {userName === username && (
+          <S.ButtonsContainer>
+            <S.IconButton onClick={() => toogleDeleteModal(true)}>
+              <DeleteIcon />
+            </S.IconButton>
 
-          <S.IconButton onClick={() => toggleCommentModal(true)}>
-            <EditIcon />
-          </S.IconButton>
-        </S.ButtonsContainer>
+            <S.IconButton onClick={() => toggleCommentModal(true)}>
+              <EditIcon />
+            </S.IconButton>
+          </S.ButtonsContainer>
+        )}
       </S.CommentHead>
       <S.PostInfo>
         <span>
-          @<b>User</b>
+          @<b>{username}</b>
         </span>
-        <span>10/20/2022</span>
+        <span>{created_datetime}</span>
       </S.PostInfo>
       <S.CommentText>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi cum
-          minus, culpa sapiente cumque debitis voluptate expedita, dicta ipsum
-          id in deleniti! Non numquam possimus aliquid repudiandae tempore
-          sequi! Deleniti.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi cum
-          minus, culpa sapiente cumque debitis voluptate expedita, dicta ipsum
-          id in deleniti! Non numquam possimus aliquid repudiandae tempore
-          sequi! Deleniti.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi cum
-          minus, culpa sapiente cumque debitis voluptate expedita, dicta ipsum
-          id in deleniti! Non numquam possimus aliquid repudiandae tempore
-          sequi! Deleniti.
-        </p>
+        <p>{content}</p>
       </S.CommentText>
     </S.CommentBody>
   )
