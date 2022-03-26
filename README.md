@@ -7,6 +7,9 @@
 
 This app was a code challenge to create a simple social network, where you can read, create , edit and delete posts. You don’t need an account, just enter a username and start creating posts.
 
+See this running:
+[https://posterizer.vercel.app/](https://posterizer.vercel.app/)
+
 ## Fully responsive
 
 ![Posterizer Mobile](https://github.com/DrZanuff/posterizer/blob/main/docs/posterizer3.png?raw=true)
