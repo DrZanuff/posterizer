@@ -1,6 +1,7 @@
 # Posterizer
 
-images
+![Posterizer Login](https://github.com/DrZanuff/posterizer/blob/main/docs/posterizer1.png?raw=true)
+![Posterizer App](https://github.com/DrZanuff/posterizer/blob/main/docs/posterizer2.png?raw=true)
 
 ## About
 
@@ -8,7 +9,8 @@ This app was a code challenge to create a simple social network, where you can r
 
 ## Fully responsive
 
-images
+![Posterizer Mobile](https://github.com/DrZanuff/posterizer/blob/main/docs/posterizer3.png?raw=true)
+![Posterizer Modal](https://github.com/DrZanuff/posterizer/blob/main/docs/posterizer4.png?raw=true)
 
 You can check the app on your phone or set the browser to responsive mode on dev tools.
 
