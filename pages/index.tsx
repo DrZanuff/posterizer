@@ -38,6 +38,7 @@ const Home: NextPage = () => {
 
         await controlMainPage.start({
           top: '1%',
+          opacity: 1,
           transition: {
             delay: 0.2,
             // duration: 0.8,
@@ -103,6 +104,7 @@ const Home: NextPage = () => {
           maxWidth: '700px',
           width: '100%',
           height: '97vh',
+          opacity: 0,
         }}
       >
         <MainPage />
